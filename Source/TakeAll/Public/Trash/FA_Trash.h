@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "FA_Trash.generated.h"
 
+class USphereComponent;
+class UStaticMeshComponent;
+
 UCLASS()
 class TAKEALL_API AFA_Trash : public AActor
 {
@@ -15,8 +18,16 @@ public:
     AFA_Trash();
 
 protected:
-    virtual void BeginPlay() override;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+    UStaticMeshComponent* StaticMesh;
 
-public:
-    virtual void Tick(float DeltaTime) override;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+    USphereComponent* CollisionSphere;
+    
+
+private:
+    float SphereRadius = 20.f;
+
+protected:
+    virtual void BeginPlay() override;
 };

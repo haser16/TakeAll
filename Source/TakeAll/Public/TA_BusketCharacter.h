@@ -29,6 +29,14 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     class UCameraComponent* FollowCamera;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    class UStaticMeshComponent* StaticMeshTop;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    class UStaticMeshComponent* StaticMeshDown;
+
+protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
     UInputAction* MoveRight;
@@ -37,8 +45,14 @@ protected:
     UInputMappingContext* InputMapping;
 
 public:
+    UFUNCTION()
+    void OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+        int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+public:
     virtual void Tick(float DeltaTime) override;
 
 private:
     void OnMoveRight(const FInputActionValue& Value);
+    int32 Score = 0;
 };
