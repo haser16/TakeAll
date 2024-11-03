@@ -23,10 +23,17 @@ protected:
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
     USphereComponent* CollisionSphere;
+
+protected:
+    UFUNCTION()
+    void DestroyActor();
     
 
 private:
     float SphereRadius = 20.f;
+
+    FTimerHandle DestroyTimer;
+    float DestroyDelay = 5.f;
 
 protected:
     virtual void BeginPlay() override;

@@ -21,4 +21,14 @@ AFA_Trash::AFA_Trash()
 void AFA_Trash::BeginPlay()
 {
     Super::BeginPlay();
+
+    if (GetWorld())
+    {
+        GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AFA_Trash::DestroyActor, DestroyDelay, false);
+    }
+}
+
+void AFA_Trash::DestroyActor() 
+{
+    Destroy();
 }

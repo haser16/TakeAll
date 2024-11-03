@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/SkeletalMesh.h"
+#include "Components/CapsuleComponent.h"
 #include "Trash/FA_Trash.h"
 
 ATA_BusketCharacter::ATA_BusketCharacter()
@@ -20,12 +21,13 @@ ATA_BusketCharacter::ATA_BusketCharacter()
     CameraBoom->TargetArmLength = 400.0f;
     CameraBoom->bUsePawnControlRotation = true;
 
+    GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ATA_BusketCharacter::OnBeginTrashOverlap);
+
     FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
     FollowCamera->bUsePawnControlRotation = false;
 
     StaticMeshTop = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshTop"));
-    StaticMeshTop->OnComponentBeginOverlap.AddDynamic(this, &ATA_BusketCharacter::OnBeginTrashOverlap);
     StaticMeshTop->SetupAttachment(GetMesh());
 
     StaticMeshDown = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshDown"));
