@@ -13,46 +13,48 @@ class UInputMappingContext;
 UCLASS()
 class TAKEALL_API ATA_BusketCharacter : public ACharacter
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    ATA_BusketCharacter();
+	ATA_BusketCharacter();
 
 protected:
-    virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-protected:
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class USpringArmComponent* CameraBoom;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class UCameraComponent* FollowCamera;
-    
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    class UStaticMeshComponent* StaticMeshTop;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    class UStaticMeshComponent* StaticMeshDown;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class USpringArmComponent* CameraBoom;
 
-    UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
-    UInputAction* MoveRight;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* FollowCamera;
 
-    UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
-    UInputMappingContext* InputMapping;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	class UStaticMeshComponent* StaticMeshTop;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	class UStaticMeshComponent* StaticMeshDown;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
+	UInputAction* MoveRight;
+
+	UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
+	UInputMappingContext* InputMapping;
+
+protected:
+	UFUNCTION()
+	void OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+							 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+							 const FHitResult& SweepResult);
 
 public:
-    UFUNCTION()
-    void OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-        int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void Tick(float DeltaTime) override;
 
-public:
-    virtual void Tick(float DeltaTime) override;
+	int32 GetScore() const { return Score; };
 
 private:
-    void OnMoveRight(const FInputActionValue& Value);
-    int32 Score = 0;
+	void OnMoveRight(const FInputActionValue& Value);
+	int32 Score = 0;
 };

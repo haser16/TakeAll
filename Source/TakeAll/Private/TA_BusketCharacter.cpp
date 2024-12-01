@@ -82,7 +82,6 @@ void ATA_BusketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedCom
     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     Score++;
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%i"), Score));
 
     if (AFA_Trash* Trash = Cast<AFA_Trash>(OtherActor))
     {

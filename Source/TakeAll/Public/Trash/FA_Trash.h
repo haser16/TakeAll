@@ -33,7 +33,7 @@ private:
     float SphereRadius = 20.f;
 
     FTimerHandle DestroyTimer;
-    float DestroyDelay = 5.f;
+    float DestroyDelay = 3.f;
 
 protected:
     virtual void BeginPlay() override;

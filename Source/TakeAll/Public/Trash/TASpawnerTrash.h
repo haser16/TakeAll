@@ -21,7 +21,7 @@ protected:
 
 protected:
     UFUNCTION()
-    void SpawningActor();
+    void SpawningActor() const;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
     float DelaySpawning = 1.f;
@@ -31,6 +31,12 @@ protected:
 
 private:
     FTimerHandle TrashHandle;
+    int32 Time = 1;
+
+    UFUNCTION()
+    void OnGameStopped();
+
+    void StartGame();
 
 public:
     virtual void Tick(float DeltaTime) override;
