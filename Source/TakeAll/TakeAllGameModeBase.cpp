@@ -1,12 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TakeAllGameModeBase.h"
-#include "TA_BusketCharacter.h"
+#include "Character/TABasketCharacter.h"
 #include "UI/TAGameHUD.h"
 
 ATakeAllGameModeBase::ATakeAllGameModeBase()
 {
-    DefaultPawnClass = ATA_BusketCharacter::StaticClass();
+    DefaultPawnClass = ATABasketCharacter::StaticClass();
     HUDClass = ATAGameHUD::StaticClass();
 }
 

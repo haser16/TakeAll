@@ -7,7 +7,7 @@
 #include "TAGameDataWidget.generated.h"
 
 
-class ATA_BusketCharacter;
+class ATABasketCharacter;
 class ATakeAllGameModeBase;
 
 UCLASS()
@@ -22,7 +22,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	int32 GetGameScore() const;
 
+    UFUNCTION(BlueprintCallable, Category = "UI")
+    bool IsChangedColor() const;
+
 private:
 	ATakeAllGameModeBase* GetTAGameMode() const;
-	ATA_BusketCharacter* GetTACharacter() const;
+	ATABasketCharacter* GetTACharacter() const;
 };

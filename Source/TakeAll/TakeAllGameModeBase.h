@@ -20,7 +20,8 @@ public:
 
 public:
 	
-	int32 GetTimeRound() const { return SecondsRound; }
+	int32 GetTimeRoundEnded() const { return SecondsRound; }
+	int32 GetRoundTime() const { return RoundTime; }
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Round")

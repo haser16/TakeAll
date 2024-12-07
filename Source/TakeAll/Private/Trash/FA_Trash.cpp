@@ -3,7 +3,7 @@
 #include "Trash/FA_Trash.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
-#include "TA_BusketCharacter.h"
+#include "Character/TABasketCharacter.h"
 
 AFA_Trash::AFA_Trash()
 {

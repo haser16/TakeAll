@@ -3,4 +3,4 @@
 #include "TakeAll.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, TakeAll, "TakeAll" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, TakeAll, "TakeAll");
