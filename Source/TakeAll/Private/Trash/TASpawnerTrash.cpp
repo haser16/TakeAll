@@ -4,6 +4,7 @@
 #include "Trash/FATrash.h"
 #include "TakeAll/TakeAllGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 DEFINE_LOG_CATEGORY_STATIC(TrashSpawner, All, All);
 
@@ -22,6 +23,7 @@ void ATASpawnerTrash::BeginPlay()
 
 void ATASpawnerTrash::StartGame()
 {
+    DrawDebugSphere(GetWorld(), GetActorLocation(), 20, 30, FColor::Red, false, -1.f);
     ATakeAllGameModeBase* GameMode = Cast<ATakeAllGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
     if (GetWorld())
@@ -46,10 +48,7 @@ void ATASpawnerTrash::Tick(float DeltaTime)
 
 void ATASpawnerTrash::SpawningActor() const
 {
-    int32 IsSpawn = FMath::RandRange(0, 10);
-    FString Message = FString::Printf(TEXT("IsSpawn: %d"), IsSpawn);
-    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, Message);
-    if (IsSpawn < 5)
+    if (FMath::RandBool())
     {
         FActorSpawnParameters SpawnParams;
         SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

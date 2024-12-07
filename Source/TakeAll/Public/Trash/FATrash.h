@@ -32,7 +32,9 @@ private:
     float SphereRadius = 20.f;
 
     FTimerHandle DestroyTimer;
-    float DestroyDelay = 3.f;
+
+    UPROPERTY(EditAnywhere, Category = "Destroy")
+    float DestroyDelay = 10.f;
 
 protected:
     virtual void BeginPlay() override;

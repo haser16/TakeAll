@@ -19,5 +19,12 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
     TSubclassOf<UUserWidget> GameStaticUserWidget;
+    
+    UFUNCTION()
+    void OnGameStopped();
 
+    UUserWidget* PlayerHUDWidget;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+    TSubclassOf<UUserWidget> GameOverWidget;
 };
