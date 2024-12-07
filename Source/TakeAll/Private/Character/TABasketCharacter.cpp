@@ -8,7 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "Components/CapsuleComponent.h"
-#include "Trash/FA_Trash.h"
+#include "Trash/FATrash.h"
 
 ATABasketCharacter::ATABasketCharacter()
 {
@@ -81,7 +81,7 @@ void ATABasketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComp
 {
     Score++;
 
-    if (AFA_Trash* Trash = Cast<AFA_Trash>(OtherActor))
+    if (AFATrash* Trash = Cast<AFATrash>(OtherActor))
     {
         Trash->Destroy();
     }

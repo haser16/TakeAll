@@ -6,16 +6,15 @@
 
 void ATAGameHUD::DrawHUD()
 {
-	Super::DrawHUD();
+    Super::DrawHUD();
 
-	
 }
 
 void ATAGameHUD::BeginPlay()
 {
     Super::BeginPlay();
-    
-    if (auto PlayerHUDWidget = CreateWidget<UUserWidget>( GetWorld(), GameStaticUserWidget ))
+
+    if (auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), GameStaticUserWidget))
     {
         PlayerHUDWidget->AddToViewport();
     }

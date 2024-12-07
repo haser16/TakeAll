@@ -9,17 +9,15 @@
 UCLASS()
 class TAKEALL_API ATAGameHUD : public AHUD
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 private:
-	virtual void DrawHUD() override;
+    virtual void DrawHUD() override;
 
 protected:
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
-	
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
-	TSubclassOf<UUserWidget> GameStaticUserWidget;
-	
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+    TSubclassOf<UUserWidget> GameStaticUserWidget;
+
 };

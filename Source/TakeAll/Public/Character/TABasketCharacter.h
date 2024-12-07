@@ -21,7 +21,7 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -31,10 +31,10 @@ protected:
     class UCameraComponent* FollowCamera;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    class UStaticMeshComponent* StaticMeshTop;
+    UStaticMeshComponent* StaticMeshTop;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    class UStaticMeshComponent* StaticMeshDown;
+    UStaticMeshComponent* StaticMeshDown;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "BusketInput")

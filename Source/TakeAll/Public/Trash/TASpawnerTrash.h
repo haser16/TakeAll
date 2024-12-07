@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "TASpawnerTrash.generated.h"
 
-class AFA_Trash;
+class AFATrash;
 
 UCLASS()
 class TAKEALL_API ATASpawnerTrash : public AActor
@@ -27,7 +27,7 @@ protected:
     float DelaySpawning = 1.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
-    TSubclassOf<AFA_Trash> SpawnClass;
+    TSubclassOf<AFATrash> SpawnClass;
 
 private:
     FTimerHandle TrashHandle;

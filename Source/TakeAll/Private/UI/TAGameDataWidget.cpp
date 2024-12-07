@@ -25,9 +25,9 @@ ATakeAllGameModeBase* UTAGameDataWidget::GetTAGameMode() const
 bool UTAGameDataWidget::IsChangedColor() const
 {
     const auto GameMode = GetTAGameMode();
-    float Fraction = 4.f/5.f;
+    float Fraction = 4.f / 5.f;
     int32 IsTime = GameMode->GetRoundTime() * Fraction;
-    
+
     return GameMode ? GameMode->GetTimeRoundEnded() >= IsTime : false;
 }
 

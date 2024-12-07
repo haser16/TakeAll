@@ -1,7 +1,7 @@
 // Take All.haser inc.All Rights Reserved.
 
 #include "Trash/TASpawnerTrash.h"
-#include "Trash/FA_Trash.h"
+#include "Trash/FATrash.h"
 #include "TakeAll/TakeAllGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -53,6 +53,6 @@ void ATASpawnerTrash::SpawningActor() const
     {
         FActorSpawnParameters SpawnParams;
         SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-        GetWorld()->SpawnActor<AFA_Trash>(SpawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+        GetWorld()->SpawnActor<AFATrash>(SpawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
     }
 }

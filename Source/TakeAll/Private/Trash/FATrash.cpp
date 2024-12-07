@@ -1,11 +1,10 @@
 // Take All.haser inc.All Rights Reserved.
 
-#include "Trash/FA_Trash.h"
+#include "Trash/FATrash.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
-#include "Character/TABasketCharacter.h"
 
-AFA_Trash::AFA_Trash()
+AFATrash::AFATrash()
 {
     PrimaryActorTick.bCanEverTick = false;
 
@@ -18,17 +17,17 @@ AFA_Trash::AFA_Trash()
     CollisionSphere->SetupAttachment(RootComponent);
 }
 
-void AFA_Trash::BeginPlay()
+void AFATrash::BeginPlay()
 {
     Super::BeginPlay();
 
     if (GetWorld())
     {
-        GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AFA_Trash::DestroyActor, DestroyDelay, false);
+        GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AFATrash::DestroyActor, DestroyDelay, false);
     }
 }
 
-void AFA_Trash::DestroyActor() 
+void AFATrash::DestroyActor()
 {
     Destroy();
 }

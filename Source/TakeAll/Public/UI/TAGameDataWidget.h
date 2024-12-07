@@ -13,19 +13,19 @@ class ATakeAllGameModeBase;
 UCLASS()
 class TAKEALL_API UTAGameDataWidget : public UUserWidget
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	int32 GetTimeToOverRound() const;
-	
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	int32 GetGameScore() const;
+    UFUNCTION(BlueprintCallable, Category = "UI")
+    int32 GetTimeToOverRound() const;
+
+    UFUNCTION(BlueprintCallable, Category = "UI")
+    int32 GetGameScore() const;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool IsChangedColor() const;
 
 private:
-	ATakeAllGameModeBase* GetTAGameMode() const;
-	ATABasketCharacter* GetTACharacter() const;
+    ATakeAllGameModeBase* GetTAGameMode() const;
+    ATABasketCharacter* GetTACharacter() const;
 };
