@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TACoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "TASpawnerTrash.generated.h"
 
@@ -34,7 +35,7 @@ private:
     int32 Time = 1;
 
     UFUNCTION()
-    void OnGameStopped();
+    void OnMatchStateChanged(ETAMatchState State);
 
     void StartGame();
 

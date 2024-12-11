@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TACoreTypes.h"
 #include "GameFramework/HUD.h"
 #include "TAGameHUD.generated.h"
 
@@ -11,7 +12,6 @@ class TAKEALL_API ATAGameHUD : public AHUD
 {
     GENERATED_BODY()
 
-private:
     virtual void DrawHUD() override;
 
 protected:
@@ -19,12 +19,20 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
     TSubclassOf<UUserWidget> GameStaticUserWidget;
-    
-    UFUNCTION()
-    void OnGameStopped();
 
     UUserWidget* PlayerHUDWidget;
 
+    class ATABasketCharacter* GetOwnCharacter() const;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
     TSubclassOf<UUserWidget> GameOverWidget;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+    TSubclassOf<UUserWidget> PauseWidget;
+
+private:
+    void ClearViewport() const ;
+    void AddStatisticToViewport() const;
+    void AddPauseScreenToViewPort() const;
+    void OnMatchStateChanged(ETAMatchState State) const;
 };

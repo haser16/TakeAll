@@ -31,14 +31,21 @@ void ATASpawnerTrash::StartGame()
         GetWorld()->GetTimerManager().SetTimer(TrashHandle, this, &ATASpawnerTrash::SpawningActor, DelaySpawning, true);
     }
 
-    GameMode->OnGameStopped.AddDynamic(this, &ATASpawnerTrash::OnGameStopped);
+    GameMode->OnMatchStateChanged.AddUObject(this, &ATASpawnerTrash::OnMatchStateChanged);
 }
 
-void ATASpawnerTrash::OnGameStopped()
+void ATASpawnerTrash::OnMatchStateChanged(ETAMatchState State)
 {
-    UE_LOG(TrashSpawner, Display, TEXT("The trash is stopped spawn."));
+    if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver)
+    {
+        UE_LOG(TrashSpawner, Display, TEXT("The trash is stopped spawn."));
 
-    GetWorld()->GetTimerManager().ClearTimer(TrashHandle);
+        GetWorld()->GetTimerManager().ClearTimer(TrashHandle);
+    }
+    else if (State == ETAMatchState::InProgress)
+    {
+        GetWorld()->GetTimerManager().SetTimer(TrashHandle, this, &ATASpawnerTrash::SpawningActor, DelaySpawning, true);
+    }
 }
 
 void ATASpawnerTrash::Tick(float DeltaTime)

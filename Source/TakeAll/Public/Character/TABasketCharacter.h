@@ -3,12 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TACoreTypes.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "TABasketCharacter.generated.h"
 
 class UInputAction;
 class UInputMappingContext;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGamePause);
 
 UCLASS()
 class TAKEALL_API ATABasketCharacter : public ACharacter
@@ -39,6 +42,9 @@ protected:
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
     UInputAction* MoveRight;
+    
+    UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
+    UInputAction* Pause;
 
     UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
     UInputMappingContext* InputMapping;
@@ -54,7 +60,12 @@ public:
 
     int32 GetScore() const { return Score; };
 
+    FOnGamePause OnGamePause;
+
 private:
     void OnMoveRight(const FInputActionValue& Value);
     int32 Score = 0;
+    void OnPause(const FInputActionValue& Value);
+
+    void OnMatchStateChanged(ETAMatchState State);
 };

@@ -9,6 +9,8 @@
 #include "Engine/SkeletalMesh.h"
 #include "Components/CapsuleComponent.h"
 #include "Trash/FATrash.h"
+#include "TakeAll/TakeAllGameModeBase.h"
+
 
 ATABasketCharacter::ATABasketCharacter()
 {
@@ -46,6 +48,13 @@ void ATABasketCharacter::BeginPlay()
             Subsystem->AddMappingContext(InputMapping, 0);
         }
     }
+    if (GetWorld())
+    {
+        if (const auto GameMode = Cast<ATakeAllGameModeBase>(GetWorld()->GetAuthGameMode()))
+        {
+            GameMode->OnMatchStateChanged.AddUObject(this, &ATABasketCharacter::OnMatchStateChanged);
+        }
+    }
 }
 
 void ATABasketCharacter::Tick(float DeltaTime)
@@ -58,6 +67,7 @@ void ATABasketCharacter::SetupPlayerInputComponent(class UInputComponent* Player
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
     {
         EnhancedInputComponent->BindAction(MoveRight, ETriggerEvent::Triggered, this, &ATABasketCharacter::OnMoveRight);
+        EnhancedInputComponent->BindAction(Pause, ETriggerEvent::Triggered, this, &ATABasketCharacter::OnPause);
     }
 }
 
@@ -76,6 +86,14 @@ void ATABasketCharacter::OnMoveRight(const FInputActionValue& Value)
     }
 }
 
+void ATABasketCharacter::OnPause(const FInputActionValue& Value)
+{
+    if (!GetWorld()) return;
+
+    const auto GameMode = Cast<ATakeAllGameModeBase>(GetWorld()->GetAuthGameMode());
+    GameMode->SetMatchState(ETAMatchState::Paused);
+}
+
 void ATABasketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -86,3 +104,13 @@ void ATABasketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComp
         Trash->Destroy();
     }
 }
+
+void ATABasketCharacter::OnMatchStateChanged(ETAMatchState State)
+{
+    if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver)
+    {
+        TurnOff();
+        DisableInput(nullptr);
+    }
+}
+

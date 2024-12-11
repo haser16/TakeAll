@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TACoreTypes.h"
 #include "GameFramework/GameModeBase.h"
 #include "TakeAllGameModeBase.generated.h"
 
@@ -17,13 +18,10 @@ public:
 	ATakeAllGameModeBase();
 
 	virtual void StartPlay() override;
-
-public:
 	
 	int32 GetTimeRoundEnded() const { return SecondsRound; }
 	int32 GetRoundTime() const { return RoundTime; }
-
-public:
+    
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Round")
 	int32 RoundTime = 60;
 
@@ -31,9 +29,14 @@ public:
 	void RoundTimerUpdate();
 
 	FOnGameStopped OnGameStopped;
+    FOnMatchStateChanged OnMatchStateChanged;
 
 private:
+    ETAMatchState MatchState = ETAMatchState::WaitingToStart;
 	FTimerHandle GameRoundTimerHandle;
-	void OnStopTimer();
+	void OnStopGame();
 	int32 SecondsRound = 1;
+
+public:
+    void SetMatchState(ETAMatchState State);
 };

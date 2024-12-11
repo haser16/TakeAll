@@ -4,12 +4,11 @@
 #include "UI/TAGameHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "TakeAll/TakeAllGameModeBase.h"
-#include "Kismet/GameplayStatics.h"
+#include "Character/TABasketCharacter.h"
 
 void ATAGameHUD::DrawHUD()
 {
     Super::DrawHUD();
-
 }
 
 void ATAGameHUD::BeginPlay()
@@ -20,17 +19,52 @@ void ATAGameHUD::BeginPlay()
     {
         PlayerHUDWidget->AddToViewport();
     }
-    ATakeAllGameModeBase* GameMode = Cast<ATakeAllGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-    GameMode->OnGameStopped.AddDynamic(this, &ATAGameHUD::OnGameStopped);
 
+    if (GetWorld())
+    {
+        if (const auto GameMode = Cast<ATakeAllGameModeBase>(GetWorld()->GetAuthGameMode()))
+        {
+            GameMode->OnMatchStateChanged.AddUObject(this,&ATAGameHUD::OnMatchStateChanged);
+        }
+    }
 }
 
-void ATAGameHUD::OnGameStopped()
+void ATAGameHUD::ClearViewport() const 
 {
-    if (PlayerHUDWidget) { PlayerHUDWidget->RemoveFromViewport(); }
+    if (PlayerHUDWidget) { PlayerHUDWidget->RemoveFromParent(); }
+}
 
-    if (auto PlayerStatWidget = CreateWidget<UUserWidget>(GetWorld(), GameOverWidget))
+void ATAGameHUD::AddStatisticToViewport() const
+{
+    if (const auto PlayerStatWidget = CreateWidget<UUserWidget>(GetWorld(), GameOverWidget))
     {
         PlayerStatWidget->AddToViewport();
     }
+}
+
+void ATAGameHUD::AddPauseScreenToViewPort() const
+{
+    if (const auto Pause = CreateWidget<UUserWidget>(GetWorld(), PauseWidget))
+    {
+        Pause->AddToViewport();
+    }
+}
+
+void ATAGameHUD::OnMatchStateChanged(ETAMatchState State) const
+{
+    if (State == ETAMatchState::GameOver)
+    {
+        ClearViewport();
+        AddStatisticToViewport();
+    }
+    else if (State == ETAMatchState::Paused)
+    {
+        ClearViewport();
+        AddPauseScreenToViewPort();
+    }
+}
+
+ATABasketCharacter* ATAGameHUD::GetOwnCharacter() const
+{
+    return GetOwningPlayerController() ? Cast<ATABasketCharacter>(GetOwningPlayerController()->GetPawn()) : nullptr;
 }
