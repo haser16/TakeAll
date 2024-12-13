@@ -8,8 +8,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Trash/FATrash.h"
 #include "TakeAll/TakeAllGameModeBase.h"
+#include "Sound/SoundCue.h"
 
 
 ATABasketCharacter::ATABasketCharacter()
@@ -102,6 +104,7 @@ void ATABasketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComp
     if (AFATrash* Trash = Cast<AFATrash>(OtherActor))
     {
         Trash->Destroy();
+        UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrashSound, GetActorLocation());
     }
 }
 

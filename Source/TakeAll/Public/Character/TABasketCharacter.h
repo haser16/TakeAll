@@ -10,6 +10,7 @@
 
 class UInputAction;
 class UInputMappingContext;
+class USoundCue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGamePause);
 
@@ -48,6 +49,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
     UInputMappingContext* InputMapping;
+
+    UPROPERTY(EditDefaultsOnly, Category = "BusketInput")
+    USoundCue* TrashSound;
 
 protected:
     UFUNCTION()
