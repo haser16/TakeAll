@@ -20,6 +20,8 @@ void ATakeAllGameModeBase::StartPlay()
         true);
 
     SetMatchState(ETAMatchState::InProgress);
+
+    OnMatchStateChanged.AddUObject(this, &ATakeAllGameModeBase::OnMatchStateChange);
 }
 
 void ATakeAllGameModeBase::RoundTimerUpdate()
@@ -34,6 +36,18 @@ void ATakeAllGameModeBase::OnStopGame()
 {
     GetWorld()->GetTimerManager().ClearTimer(GameRoundTimerHandle);
     SetMatchState(ETAMatchState::GameOver);
+}
+
+void ATakeAllGameModeBase::OnMatchStateChange(ETAMatchState State)
+{
+    if (State == ETAMatchState::Paused)
+    {
+        GetWorld()->GetTimerManager().PauseTimer(GameRoundTimerHandle);
+    }
+    else if (State == ETAMatchState::InProgress)
+    {
+        GetWorld()->GetTimerManager().UnPauseTimer(GameRoundTimerHandle);
+    }
 }
 
 

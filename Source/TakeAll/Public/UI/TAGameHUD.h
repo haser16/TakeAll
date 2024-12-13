@@ -7,6 +7,8 @@
 #include "GameFramework/HUD.h"
 #include "TAGameHUD.generated.h"
 
+class UTAGameDataWidget;
+
 UCLASS()
 class TAKEALL_API ATAGameHUD : public AHUD
 {
@@ -20,10 +22,6 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
     TSubclassOf<UUserWidget> GameStaticUserWidget;
 
-    UUserWidget* PlayerHUDWidget;
-
-    class ATABasketCharacter* GetOwnCharacter() const;
-
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
     TSubclassOf<UUserWidget> GameOverWidget;
 
@@ -31,8 +29,13 @@ protected:
     TSubclassOf<UUserWidget> PauseWidget;
 
 private:
-    void ClearViewport() const ;
-    void AddStatisticToViewport() const;
-    void AddPauseScreenToViewPort() const;
-    void OnMatchStateChanged(ETAMatchState State) const;
+    void OnMatchStateChanged(ETAMatchState State);
+
+    UPROPERTY()
+    TMap<ETAMatchState, UUserWidget*> GameWidgets;
+
+    UPROPERTY()
+    UUserWidget* CurrentWidget = nullptr;
+
+    void StartPlay();
 };

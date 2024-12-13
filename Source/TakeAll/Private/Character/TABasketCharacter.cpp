@@ -109,8 +109,11 @@ void ATABasketCharacter::OnMatchStateChanged(ETAMatchState State)
 {
     if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver)
     {
-        TurnOff();
         DisableInput(nullptr);
+    }
+    else
+    {
+        EnableInput(nullptr);
     }
 }
 

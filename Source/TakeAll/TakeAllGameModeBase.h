@@ -36,6 +36,7 @@ private:
 	FTimerHandle GameRoundTimerHandle;
 	void OnStopGame();
 	int32 SecondsRound = 1;
+    void OnMatchStateChange(ETAMatchState State);
 
 public:
     void SetMatchState(ETAMatchState State);

@@ -2,9 +2,8 @@
 
 
 #include "UI/TAGameHUD.h"
-#include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetTree.h"
 #include "TakeAll/TakeAllGameModeBase.h"
-#include "Character/TABasketCharacter.h"
 
 void ATAGameHUD::DrawHUD()
 {
@@ -14,12 +13,7 @@ void ATAGameHUD::DrawHUD()
 void ATAGameHUD::BeginPlay()
 {
     Super::BeginPlay();
-    PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), GameStaticUserWidget);
-    if (PlayerHUDWidget)
-    {
-        PlayerHUDWidget->AddToViewport();
-    }
-
+    
     if (GetWorld())
     {
         if (const auto GameMode = Cast<ATakeAllGameModeBase>(GetWorld()->GetAuthGameMode()))
@@ -27,44 +21,39 @@ void ATAGameHUD::BeginPlay()
             GameMode->OnMatchStateChanged.AddUObject(this,&ATAGameHUD::OnMatchStateChanged);
         }
     }
+
+    StartPlay();
 }
 
-void ATAGameHUD::ClearViewport() const 
+void ATAGameHUD::StartPlay()
 {
-    if (PlayerHUDWidget) { PlayerHUDWidget->RemoveFromParent(); }
-}
+    GameWidgets.Add(ETAMatchState::GameOver, CreateWidget<UUserWidget>(GetWorld(), GameOverWidget));
+    GameWidgets.Add(ETAMatchState::Paused, CreateWidget<UUserWidget>(GetWorld(), PauseWidget));
+    GameWidgets.Add(ETAMatchState::InProgress, CreateWidget<UUserWidget>(GetWorld(), GameStaticUserWidget));
 
-void ATAGameHUD::AddStatisticToViewport() const
-{
-    if (const auto PlayerStatWidget = CreateWidget<UUserWidget>(GetWorld(), GameOverWidget))
+    for (const auto GameWidgetPair : GameWidgets)
     {
-        PlayerStatWidget->AddToViewport();
+        const auto GameWidget = GameWidgetPair.Value;
+        if (!GameWidget) continue;
+
+        GameWidget->AddToViewport();
+        GameWidget->SetVisibility(ESlateVisibility::Hidden);
     }
 }
 
-void ATAGameHUD::AddPauseScreenToViewPort() const
-{
-    if (const auto Pause = CreateWidget<UUserWidget>(GetWorld(), PauseWidget))
-    {
-        Pause->AddToViewport();
-    }
-}
 
-void ATAGameHUD::OnMatchStateChanged(ETAMatchState State) const
+void ATAGameHUD::OnMatchStateChanged(ETAMatchState State)
 {
-    if (State == ETAMatchState::GameOver)
+    if (CurrentWidget)
     {
-        ClearViewport();
-        AddStatisticToViewport();
+        CurrentWidget->SetVisibility(ESlateVisibility::Hidden);
     }
-    else if (State == ETAMatchState::Paused)
+    if (GameWidgets.Contains(State))
     {
-        ClearViewport();
-        AddPauseScreenToViewPort();
+        CurrentWidget = GameWidgets[State];
     }
-}
-
-ATABasketCharacter* ATAGameHUD::GetOwnCharacter() const
-{
-    return GetOwningPlayerController() ? Cast<ATABasketCharacter>(GetOwningPlayerController()->GetPawn()) : nullptr;
+    if (CurrentWidget)
+    {
+        CurrentWidget->SetVisibility(ESlateVisibility::Visible);
+    }
 }

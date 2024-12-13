@@ -23,8 +23,14 @@ void ATAPlayerController::BeginPlay()
 
 void ATAPlayerController::OnMatchStateChange(ETAMatchState State)
 {
-    if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver || State == ETAMatchState::WaitingToStart)
+    if (State == ETAMatchState::InProgress)
     {
+        SetInputMode(FInputModeGameOnly());
+        SetShowMouseCursor(false);
+    }
+    else
+    {
+        SetInputMode(FInputModeUIOnly());
         SetShowMouseCursor(true);
     }
 }
