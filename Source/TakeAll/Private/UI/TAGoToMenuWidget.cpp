@@ -22,13 +22,13 @@ void UTAGoToMenuWidget::OnGoToMenu()
 {
     if (!GetWorld()) return;
 
-    const auto TAGameInstance = GetWorld()->GetGameInstance<UTAGameInstance>();
-    if (!TAGameInstance) return;
+    const auto GameInstance = GetWorld()->GetGameInstance<UTAGameInstance>();
+    if (!GameInstance) return;
 
-    if (TAGameInstance->GetMenuLevelName().IsNone())
+    if (GameInstance->GetMenuLevelName().IsNone())
     {
         UE_LOG(LogTAGoToMenuWidget, Error, TEXT("Please set name menu level name in Game Instance."))
         return;
     }
-    UGameplayStatics::OpenLevel(this, TAGameInstance->GetMenuLevelName());
+    UGameplayStatics::OpenLevel(this, GameInstance->GetMenuLevelName());
 }
