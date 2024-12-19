@@ -3,6 +3,7 @@
 #include "TakeAllGameModeBase.h"
 #include "Character/TABasketCharacter.h"
 #include "Character/TAPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/TAGameHUD.h"
 
 ATakeAllGameModeBase::ATakeAllGameModeBase()
@@ -16,10 +17,9 @@ void ATakeAllGameModeBase::StartPlay()
 {
     Super::StartPlay();
 
-    GetWorld()->GetTimerManager().SetTimer(GameRoundTimerHandle, this, &ATakeAllGameModeBase::RoundTimerUpdate, 1.f,
-        true);
-
-    SetMatchState(ETAMatchState::InProgress);
+    SetMatchState(ETAMatchState::WaitingToStart);
+    GetWorld()->GetTimerManager().SetTimer(GameRoundTimerHandle, this, &ATakeAllGameModeBase::StartRoundTimerUpdate, 3,
+        false);
 
     OnMatchStateChanged.AddUObject(this, &ATakeAllGameModeBase::OnMatchStateChange);
 }
@@ -30,6 +30,16 @@ void ATakeAllGameModeBase::RoundTimerUpdate()
         SecondsRound++;
     else if (SecondsRound == RoundTime)
         OnStopGame();
+}
+
+void ATakeAllGameModeBase::StartRoundTimerUpdate()
+{
+    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("Round Timer"));
+    
+    GetWorld()->GetTimerManager().SetTimer(GameRoundTimerHandle, this, &ATakeAllGameModeBase::RoundTimerUpdate, 1.f,
+        true);
+
+    SetMatchState(ETAMatchState::InProgress);
 }
 
 void ATakeAllGameModeBase::OnStopGame()

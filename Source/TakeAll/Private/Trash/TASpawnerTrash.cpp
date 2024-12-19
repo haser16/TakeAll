@@ -11,7 +11,7 @@ DEFINE_LOG_CATEGORY_STATIC(TrashSpawner, All, All);
 
 ATASpawnerTrash::ATASpawnerTrash()
 {
-    PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = false;
 }
 
 void ATASpawnerTrash::BeginPlay()
@@ -36,21 +36,15 @@ void ATASpawnerTrash::StartGame()
 
 void ATASpawnerTrash::OnMatchStateChanged(ETAMatchState State)
 {
-    if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver)
-    {
-        UE_LOG(TrashSpawner, Display, TEXT("The trash is stopped spawn."));
-
-        GetWorld()->GetTimerManager().ClearTimer(TrashHandle);
-    }
-    else if (State == ETAMatchState::InProgress)
+    if (State == ETAMatchState::InProgress)
     {
         GetWorld()->GetTimerManager().SetTimer(TrashHandle, this, &ATASpawnerTrash::SpawningActor, DelaySpawning, true);
     }
-}
-
-void ATASpawnerTrash::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
+    else
+    {
+        UE_LOG(TrashSpawner, Display, TEXT("The trash is stopped spawn."));
+        GetWorld()->GetTimerManager().ClearTimer(TrashHandle);
+    }
 }
 
 void ATASpawnerTrash::SpawningActor() const

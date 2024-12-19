@@ -110,13 +110,13 @@ void ATABasketCharacter::OnBeginTrashOverlap(UPrimitiveComponent* OverlappedComp
 
 void ATABasketCharacter::OnMatchStateChanged(ETAMatchState State)
 {
-    if (State == ETAMatchState::Paused || State == ETAMatchState::GameOver)
+    if(State == ETAMatchState::InProgress)
     {
-        DisableInput(nullptr);
+        EnableInput(nullptr);
     }
     else
     {
-        EnableInput(nullptr);
+        DisableInput(nullptr);
     }
 }
 

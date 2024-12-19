@@ -28,12 +28,17 @@ public:
 	UFUNCTION()
 	void RoundTimerUpdate();
 
+    UFUNCTION()
+    void StartRoundTimerUpdate();
+
 	FOnGameStopped OnGameStopped;
     FOnMatchStateChanged OnMatchStateChanged;
 
 private:
     ETAMatchState MatchState = ETAMatchState::WaitingToStart;
 	FTimerHandle GameRoundTimerHandle;
+    FTimerHandle TimeToStartRoundTimerHandle;
+    
 	void OnStopGame();
 	int32 SecondsRound = 1;
     void OnMatchStateChange(ETAMatchState State);

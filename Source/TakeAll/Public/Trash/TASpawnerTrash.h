@@ -38,7 +38,4 @@ private:
     void OnMatchStateChanged(ETAMatchState State);
 
     void StartGame();
-
-public:
-    virtual void Tick(float DeltaTime) override;
 };
