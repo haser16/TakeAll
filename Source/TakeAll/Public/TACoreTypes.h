@@ -6,7 +6,8 @@
 UENUM(BlueprintType)
 enum class ETAMatchState: uint8
 {
-    WaitingToStart = 0,
+    Menu=0,
+    WaitingToStart,
     InProgress,
     Paused,
     GameOver,
